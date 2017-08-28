@@ -1,14 +1,32 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      宗教场所信息检索
     </ion-title>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <form [formGroup]="searchForm">
+    <ion-item>
+      <ion-input placeholder="场所名称" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="场所登记证号" formControlName="no"></ion-input>
+    </ion-item>
+    <button ion-button full (click)="getItems(searchForm.value, $event)">查询</button>
+  </form>
+  <ion-list>
+    <ion-item class="item-accordion" *ngFor="let item of items">
+      <span>[{{item.jb}}]{{item.name}}</span><br/>
+      <span>{{item.fzr}}</span><br/>
+      <span>{{item.txdz}}</span>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite(searchForm.value,$event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="等待加载数据...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
